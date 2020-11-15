@@ -10,6 +10,22 @@ public class UnitMovement : NetworkBehaviour
 
     #region Server
 
+    public override void OnStartServer()
+    {
+        GameOverHandler.ServerOnGameOver += ServerHandleGameOver;
+    }
+
+    public override void OnStopServer()
+    {
+        GameOverHandler.ServerOnGameOver -= ServerHandleGameOver;
+    }
+
+    [Server]
+    private void ServerHandleGameOver()
+    {
+        agent.ResetPath();
+    }
+
     [ServerCallback]
     private void Update()
     {
