@@ -6,7 +6,9 @@ using UnityEngine;
 
 public class RTSPlayer : NetworkBehaviour
 {
+    [SerializeField] private LayerMask buildingBlockLayer = new LayerMask();
     [SerializeField] private Building[] buildings = new Building[0];
+    [SerializeField] private float buildingRangeLimit = 5f;
 
     [SyncVar(hook=nameof(ClientHandleResourcesUpdated))]
     private int resources = 500;
@@ -29,6 +31,29 @@ public class RTSPlayer : NetworkBehaviour
     public void SetResources(int newResources)
     {
         resources = newResources;
+    }
+
+    public bool CanPlaceBuilding(BoxCollider buildingCollider, Vector3 point)
+    {
+        if (Physics.CheckBox( //check we are not overlapping any other buildings
+            point + buildingCollider.center,
+            buildingCollider.size / 2,
+            Quaternion.identity,
+            buildingBlockLayer))
+        {
+            return false;
+        }
+
+        foreach (Building building in myBuildings) // check we are close enough to other buildings
+        {
+            if ((point - building.transform.position).sqrMagnitude
+                <= buildingRangeLimit * buildingRangeLimit)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     #region Server
@@ -65,12 +90,20 @@ public class RTSPlayer : NetworkBehaviour
             }
         }
 
-        if (buildingToPlace == null) { return; }
+        if (buildingToPlace == null) { return; } // check if building exists
+
+        if (resources < buildingToPlace.GetPrice()) { return; } // check we have enough money to buy the building
+
+        BoxCollider buildingCollider = buildingToPlace.GetComponent<BoxCollider>();
+
+        if (!CanPlaceBuilding(buildingCollider, point)) { return; }
 
         GameObject buildingInstance = 
             Instantiate(buildingToPlace.gameObject, point, buildingToPlace.transform.rotation);
 
         NetworkServer.Spawn(buildingInstance, connectionToClient);
+
+        SetResources(resources - buildingToPlace.GetPrice());
     }
 
     private void ServerHandleUnitSpawned(Unit unit)
