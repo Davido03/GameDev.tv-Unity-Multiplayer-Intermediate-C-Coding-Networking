@@ -248,7 +248,7 @@ PrefabInstance:
     - target: {fileID: 2277575131511850183, guid: 02af285e88a68d9479bdabd80aff579d, type: 3}
       propertyPath: icon
       value: 
-      objectReference: {fileID: 21300000, guid: 50888e04e5e286a4e90611da94d56b08, type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 3905915749723816443, guid: 02af285e88a68d9479bdabd80aff579d, type: 3}
       propertyPath: m_Center.y
       value: 1.3574634

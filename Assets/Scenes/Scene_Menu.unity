@@ -2764,14 +2764,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: NetworkManager
       objectReference: {fileID: 0}
-    - target: {fileID: 75225529984836763, guid: 0258705822eb93f4cbcea53f1fac4b73, type: 3}
-      propertyPath: spawnPrefabs.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 75225529984836763, guid: 0258705822eb93f4cbcea53f1fac4b73, type: 3}
-      propertyPath: spawnPrefabs.Array.data[8]
-      value: 
-      objectReference: {fileID: 5371685691808578955, guid: 199c570dcb0d40b4f961a30b486dbbaa, type: 3}
     - target: {fileID: 75225529984836764, guid: 0258705822eb93f4cbcea53f1fac4b73, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3164,6 +3156,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lobbyUI: {fileID: 1515218178}
   startGameButton: {fileID: 1520677485}
+  playerNameTexts:
+  - {fileID: 148051716}
+  - {fileID: 1574323008}
+  - {fileID: 534227188}
+  - {fileID: 559604904}
 --- !u!1 &1515218178
 GameObject:
   m_ObjectHideFlags: 0
